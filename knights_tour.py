@@ -24,9 +24,6 @@ def find_next_moves(board: list[list[bool]], current_position: tuple[int, int]) 
 
 def is_solved(board: list[list[bool]]) -> bool: return all(all(row) for row in board)
 
-def number_of_onward_moves(next_moves: list[tuple[int, int]]) -> int:
-    return len(next_moves)
-
 def solve_with_warnsdorfs_rule(board: list[list[bool]], current_position: tuple[int, int]) -> bool:
     (current_row, current_column) = current_position
     board[current_row][current_column] = True
@@ -37,9 +34,9 @@ def solve_with_warnsdorfs_rule(board: list[list[bool]], current_position: tuple[
     else:
         next_moves = find_next_moves(board, current_position)
         if next_moves:
-            onward_moves = [number_of_onward_moves(find_next_moves(board, move)) for move in next_moves]
-            next_moves_with_number_of_onward_moves = sorted(zip(next_moves, onward_moves), key=lambda x: x[1])
-            for next_move in next_moves_with_number_of_onward_moves:
+            count_of_onward_moves = [len(find_next_moves(board, move)) for move in next_moves]
+            next_moves_with_count_of_onward_moves = sorted(zip(next_moves, count_of_onward_moves), key=lambda x: x[1])
+            for next_move in next_moves_with_count_of_onward_moves:
                 if solve_with_warnsdorfs_rule(board, next_move[0]):
                     return True
 
